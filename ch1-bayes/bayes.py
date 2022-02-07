@@ -3,6 +3,7 @@ import random
 import itertools
 import numpy as np
 import cv2 as cv
+from scipy import rand
 
 MAP_FILE = "cape_python.png"
 
@@ -146,3 +147,24 @@ def sailor_final_location(self, num_search_areas):
         y = self.sailor_actual[1] + SA3_CORNERS[1]
         self.area_actual = 3
     return x, y
+
+
+def calc_search_efectiveness(self):
+    """Set decimal search effectiveness value per search area"""
+    self.sep1 = random.uniform(0.2, 0.9)
+    self.sep2 = random.uniform(0.2, 0.9)
+    self.sep3 = random.uniform(0.2, 0.9)
+
+
+def conduct_search(self, area_num, area_array, effectiveness_prob):
+    """Return search results and list of searched coordinates"""
+    local_y_range = range(area_array.shape[0])
+    local_x_range = range(area_array.shape[1])
+    coords = list(itertools.product(local_x_range, local_y_range))
+    random.shuffle(coords)
+    coords = coords[: int((len(coords) * effectiveness_prob))]
+    loc_actual = (self.sailor_actual[0], self.sailor_actual[1])
+    if area_num == self.area_actual and loc_actual in coords:
+        return "Found in Area {}.".format(area_num), coords
+    else:
+        return "Not Found", coords
