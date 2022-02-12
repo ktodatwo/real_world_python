@@ -21,3 +21,20 @@ def main():
     parts_of_speech_test(words_by_author, len_shortest_corpus)
     vocab_test(words_by_author)
     jaccard_test(words_by_author, len_shortest_corpus)
+
+
+def text_to_string(filename):
+    """Read a text file and return a string"""
+    with open(filename) as infile:
+        return infile.read()
+
+
+def make_word_dict(strings_by_author):
+    """Return dictionary of tokenized words by corpus by author."""
+    words_by_author = dict()
+    for author in strings_by_author:
+        tokens = nltk.word_tokenize(strings_by_author[author])
+        words_by_author[author] = [
+            token.lower() for tokeen in tokens if token.isalpha()
+        ]
+        return words_by_author
