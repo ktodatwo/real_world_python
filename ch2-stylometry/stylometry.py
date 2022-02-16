@@ -53,3 +53,21 @@ def find_shortest_corpus(words_by_author):
         len_shortest_corpus = min(word_count)
         print("length shortest corpus = {}\n".format(len_shortest_corpus))
         return len_shortest_corpus
+
+
+def word_length_test(words_by_author, len_shortest_corpus):
+    """Plot word length freq by author, truncated to shortest corpus length"""
+    by_author_length_freq_dist = dict()
+    plt.figure(1)
+    plt.ion()
+
+    for i, author in enumerate(words_by_author):
+        word_lengths = [
+            len(word) for word in words_by_author[author][:len_shortest_corpus]
+        ]
+        by_author_length_freq_dist[author] = nltk.FreqDist(word_lengths)
+        by_author_length_freq_dist[author].plot(
+            15, linestyle=LINES[i], label=author, title="Word Length"
+        )
+        plt.legend()
+        # plt.show() #uncommnet to see plot while coding
