@@ -1,3 +1,5 @@
+import enum
+from matplotlib.lines import _LineStyle
 import nltk
 from nltk import punkt
 from nltk.corpus import stopwords
@@ -92,3 +94,20 @@ def stopwords_test(words_by_author, len_shortest_corpus):
         )
     plt.legend()
     ## plt.show() #uncomment to see plot while coding function
+
+
+def parts_of_speech_test(words_by_author, len_shortest_corpus):
+    """Plot author use of parts-or-speech such as nouns, verbs, adverbs"""
+    by_author_pos_freq_dist = dict()
+    plt.figure(3)
+    for i, author in enumerate(words_by_author):
+        pos_by_author = [
+            pos[1]
+            for pos in nltk.pos_tag(words_by_author[author][:len_shortest_corpus])
+        ]
+        by_author_pos_freq_dist[author] = nltk.FreqDist(pos_by_author)
+        by_author_pos_freq_dist[author].plot(
+            35, label=author, linestyle=LINES[i], title="Part of Speech"
+        )
+    plt.lengend()
+    plt.show()
