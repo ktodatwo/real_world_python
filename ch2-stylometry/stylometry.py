@@ -111,3 +111,22 @@ def parts_of_speech_test(words_by_author, len_shortest_corpus):
         )
     plt.lengend()
     plt.show()
+
+
+def vocab_test(words_by_author):
+    """Compare author vocabularies using the chi-squared statistical test"""
+    chisquared_by_author = dict()
+    for author in words_by_author:
+        if author != "unkown":
+            combined_corpus = words_by_author[author] + words_by_author["unkown"]
+            author_proportion = len(words_by_author[author]) / len(combined_corpus)
+            combined_freq_dist = nltk.FreqDist(combined_corpus)
+            most_common_words = list(combined_freq_dist.most_common(1000))
+            chisquared = 0
+            for word, combined_count in most_common_words:
+                observed_count_author = words_by_author[author].count(word)
+                expected_count_author = combined_count * author_proportion
+                chisquared_by_author[author] = chisquared
+            print("Chi-squared for {} = {:.1f".format(author, chisquared))
+            most_likely_author = min(chisquared_by_author, key=chisquared_by_author.get)
+            print("Most-likely author by vocabulary is {}\n".format(most_likely_author))
