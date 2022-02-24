@@ -130,3 +130,24 @@ def vocab_test(words_by_author):
             print("Chi-squared for {} = {:.1f".format(author, chisquared))
             most_likely_author = min(chisquared_by_author, key=chisquared_by_author.get)
             print("Most-likely author by vocabulary is {}\n".format(most_likely_author))
+
+
+def jaccard_test(words_by_author, len_shortest_corpus):
+    """Calc the Jaccard Similarity of each known corpus to unknown corpus"""
+    jaccard_by_author = dict()
+    unique_words_unknown = set(words_by_author["unknown"][:len_shortest_corpus])
+    authors = (author for author in words_by_author if author != "unknown")
+    for author in authors:
+        unique_words_author = set(words_by_author[author][:len_shortest_corpus])
+        shared_words = unique_words_author.intersection(unique_words_unknown)
+        jaccard_sim = float(len(shared_words)) / (
+            len(unique_words_author) + len(unique_words_unknown) + len(shared_words)
+        )
+        jaccard_by_author[author] = jaccard_sim
+        print("Jaccard Similarity for {} = {}".format(author, jaccard_sim))
+    most_likely_author = max(jaccard_by_author, key=jaccard_by_author.get)
+    print("Most likely author by similiarity is {}".format(most_likely_author))
+
+
+if __name__ == "__main__":
+    main()
