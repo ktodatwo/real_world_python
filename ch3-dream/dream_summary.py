@@ -38,3 +38,13 @@ def main():
     print("\nSummary:")
     for i in summary:
         print(i[0])
+
+
+def remove_stop_words(speech_edit):
+    """Remove stop words from string and return string"""
+    stop_words = set(stopwords.words("english"))
+    speech_edit_no_stop = ""
+    for word in nltk.word_tokenize(speech_edit):
+        if word.lower() not in stop_words:
+            speech_edit_no_stop += word + " "
+    return speech_edit_no_stop
