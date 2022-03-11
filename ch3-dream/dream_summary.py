@@ -48,3 +48,9 @@ def remove_stop_words(speech_edit):
         if word.lower() not in stop_words:
             speech_edit_no_stop += word + " "
     return speech_edit_no_stop
+
+
+def get_word_freq(speech_edit_no_stop):
+    """Return a dictionary of word frequency in a string"""
+    word_freq = nltk.FreqDist(nltk.word_tokenize(speech_edit_no_stop.lower()))
+    return word_freq
