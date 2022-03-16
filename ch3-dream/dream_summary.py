@@ -54,3 +54,23 @@ def get_word_freq(speech_edit_no_stop):
     """Return a dictionary of word frequency in a string"""
     word_freq = nltk.FreqDist(nltk.word_tokenize(speech_edit_no_stop.lower()))
     return word_freq
+
+
+def score_sentences(speech, word_freq, max_words):
+    """Return dictionary of sentance scores based on word frequency"""
+    sent_scores = dict()
+    sentences = nltk.sent_tokenize(speech)
+    for sent in sentences:
+        sent_scores[sent] = 0
+        words = nltk.word_tokenize(sent.lower())
+        sent_word_count = len(words)
+        if sent_word_count <= int(max_words):
+            for word in words:
+                if word in word_freq.keys():
+                    sent_scores[sent] += word_freq[word]
+            sent_scores[sent] = sent_scores[sent] / sent_word_count
+    return sent_scores
+
+
+if __name__ == "__maine__":
+    main()
